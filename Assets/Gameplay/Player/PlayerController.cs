@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace SpikeScape.Gameplay.Player {
+namespace SpikeScape.Gameplay.Player
+{
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float forwardSpeed = 5f;
@@ -14,6 +15,7 @@ namespace SpikeScape.Gameplay.Player {
         private InputAction _jumpAction;
         private InputAction _lookAction;
         private float _turnInput;
+        private Vector3 _sideCollisionNormal;
 
         private void Awake()
         {
@@ -41,15 +43,24 @@ namespace SpikeScape.Gameplay.Player {
 
         private void FixedUpdate()
         {
-            // Move forward
-            Vector3 forwardMovement = transform.forward * forwardSpeed * Time.fixedDeltaTime;
-            _rb.MovePosition(_rb.position + forwardMovement);
-
-            // Turn
-            if (Math.Abs(_turnInput) > 0.01f)
+            // Turn
+            if (Math.Abs(_turnInput) > 0.01f)
             {
                 transform.Rotate(_turnInput * turnSpeed * Time.fixedDeltaTime * Vector3.up);
             }
+
+            // Calculate desired velocity
+            Vector3 desiredVelocity = transform.forward * forwardSpeed;
+
+            // Adjust for side collisions
+            if (_sideCollisionNormal != Vector3.zero)
+            {
+                desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, _sideCollisionNormal);
+            }
+
+            desiredVelocity.y = _rb.linearVelocity.y; // Preserve vertical velocity (gravity, jumping)
+
+            _rb.linearVelocity = desiredVelocity;
         }
 
         private void OnJump(InputAction.CallbackContext context)
@@ -63,6 +74,33 @@ namespace SpikeScape.Gameplay.Player {
         private bool IsGrounded()
         {
             return Physics.Raycast(transform.position, Vector3.down, 0.5f);
+        }
+
+        private void OnCollisionStay(Collision collision)
+        {
+            var numSideCollisions = 0;
+            _sideCollisionNormal = Vector3.zero;
+
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                //Ignore ground collisions
+                if (Vector3.Dot(contact.normal, Vector3.up) < 0.7f) // ~45 degrees
+                {
+                    numSideCollisions++;
+                    _sideCollisionNormal += contact.normal;
+                }
+            }
+
+            if (numSideCollisions > 0)
+            {
+                _sideCollisionNormal /= numSideCollisions;
+                _sideCollisionNormal.y = 0; // Ignore vertical component
+                _sideCollisionNormal.Normalize();
+            }
+            else
+            {
+                _sideCollisionNormal = Vector3.zero;
+            }
         }
     }
 }
