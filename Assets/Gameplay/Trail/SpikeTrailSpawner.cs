@@ -14,7 +14,7 @@ namespace SpikeScape.Gameplay.Trail
         [SerializeField] private int maxSpikes = 10;
 
         private Vector3 _lastSpawnPosition;
-        private List<GameObject> _spawnedSpikes = new List<GameObject>();
+        private readonly List<GameObject> _spawnedSpikes = new();
 
         private void Start()
         {

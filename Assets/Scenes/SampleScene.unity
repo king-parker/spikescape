@@ -546,6 +546,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 13507310215740223, guid: af01709c7fb2337419d0c736f055e5d6, type: 3}
+      propertyPath: maxSpikes
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2668565706187162893, guid: af01709c7fb2337419d0c736f055e5d6, type: 3}
       propertyPath: m_Enabled
       value: 0
