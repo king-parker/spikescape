@@ -10,12 +10,18 @@ namespace SpikeScape.Gameplay.Trail
     {
         [SerializeField] private float despawnTime = 3f;
 
+        private SpikePool _spikePool;
         private Coroutine _despawnRoutine;
         private Vector3 _initialScale;
 
         private void Awake()
         {
             _initialScale = transform.localScale;
+        }
+
+        public void Initialize(SpikePool spikePool)
+        {
+            _spikePool = spikePool;
         }
 
         /// <summary>
@@ -27,6 +33,16 @@ namespace SpikeScape.Gameplay.Trail
             {
                 _despawnRoutine = StartCoroutine(DespawnRoutine());
             }
+        }
+
+        public void MarkDespawnComplete()
+        {
+            _despawnRoutine = null;
+        }
+
+        public void ResetSize()
+        {
+            transform.localScale = _initialScale;
         }
 
         public void OnTriggerReceived(Collider other)
@@ -53,7 +69,12 @@ namespace SpikeScape.Gameplay.Trail
                 yield return null;
             }
 
-            Destroy(gameObject);
+            if (_spikePool == null)
+            {
+                Debug.LogError("SpikePool reference is missing in SpikeController.");
+                yield break;
+            }
+            _spikePool.ReturnSpike(this);
         }
     }
 }

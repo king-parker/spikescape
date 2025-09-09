@@ -13,8 +13,11 @@ namespace SpikeScape.Gameplay.Trail
         [SerializeField] private float spawnDistance = 1f;
         [SerializeField] private int maxSpikes = 10;
 
+        [Header("Spike Pool Settings")]
+        [SerializeField] private SpikePool spikePool;
+
         private Vector3 _lastSpawnPosition;
-        private readonly List<GameObject> _spawnedSpikes = new();
+        private readonly List<SpikeController> _spawnedSpikes = new();
 
         private void Start()
         {
@@ -36,13 +39,13 @@ namespace SpikeScape.Gameplay.Trail
 
         private void SpawnSpike(Vector3 spawnPosition)
         {
-            var spike = Instantiate(spikeTrailPrefab, spawnPosition, Quaternion.identity);
+            var spike = spikePool.GetSpike(spawnPosition, Quaternion.identity);
             _spawnedSpikes.Add(spike);
 
             // Remove oldest spike if exceeding maxSpikes
             if (_spawnedSpikes.Count > maxSpikes)
             {
-                _spawnedSpikes[0].GetComponent<SpikeController>().Despawn();
+                _spawnedSpikes[0].Despawn();
                 _spawnedSpikes.RemoveAt(0);
             }
         }
