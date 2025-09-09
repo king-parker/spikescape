@@ -181,6 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f288c2603f55f9044856b5dd9ddfe50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardSpeed: 5
+  forwardImpulse: 50
+  maxHorizontalSpeed: 5
   turnSpeed: 90
+  slideForce: 50
   jumpForce: 5
+  groundCheckDistance: 0.5

@@ -6,17 +6,22 @@ namespace SpikeScape.Gameplay.Player
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private float forwardSpeed = 5f;
+        [Header("Movement Settings")]
+        [SerializeField] private float forwardImpulse = 10f;
+        [SerializeField] private float maxHorizontalSpeed = 5f;
         [SerializeField] private float turnSpeed = 90f;
+        [SerializeField] private float slideForce = 10f;
+
+        [Header("Jump Settings")]
         [SerializeField] private float jumpForce = 5f;
+        [SerializeField] private float groundCheckDistance = 0.5f;
 
         private Rigidbody _rb;
         private InputAction _turnAction;
         private InputAction _jumpAction;
         private InputAction _lookAction;
         private float _turnInput;
-        private Vector3 _sideCollisionNormal;
-        private Vector3 _ceilingCollisionNormal;
+        private Vector3 _nonFloorCollision;
 
         private void Awake()
         {
@@ -44,33 +49,33 @@ namespace SpikeScape.Gameplay.Player
 
         private void FixedUpdate()
         {
-            if (_rb.linearVelocity.y > 0.001f)
-            {
-                Debug.Log($"[{Time.fixedTime:F4}s] Vertical Velocity: {_rb.linearVelocity.y}");
-            }
-
-            // Turn
+            // Turning
             if (Math.Abs(_turnInput) > 0.01f)
             {
                 transform.Rotate(_turnInput * turnSpeed * Time.fixedDeltaTime * Vector3.up);
             }
 
-            // Calculate desired velocity
-            Vector3 desiredVelocity = transform.forward * forwardSpeed;
-            desiredVelocity.y = _rb.linearVelocity.y; // Preserve vertical velocity (gravity, jumping)
+            // Constant forward impulse
+            _rb.AddForce(transform.forward * forwardImpulse, ForceMode.Acceleration);
 
-            // Adjust for collisions
-            var collisionNormal = _rb.linearVelocity.y > 0 ? _ceilingCollisionNormal : _sideCollisionNormal;
-            if (collisionNormal != Vector3.zero)
+
+            Vector3 horizontalVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+
+            if (_nonFloorCollision != Vector3.zero)
             {
-                Debug.Log($"[{Time.fixedTime:F4}s] 1. Is jumping: {_rb.linearVelocity.y > 0}");
-                Debug.Log($"[{Time.fixedTime:F4}s] 2. Current desired velocity: {desiredVelocity}");
-                Debug.Log($"[{Time.fixedTime:F4}s] 3. Adjusting velocity for collision normal: {collisionNormal}");
-                desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, collisionNormal);
-                Debug.Log($"[{Time.fixedTime:F4}s] 4. New desired velocity: {desiredVelocity}");
+                // Apply sliding force along the collision surface
+                Vector3 collisionTangent = Vector3.ProjectOnPlane(horizontalVelocity, _nonFloorCollision);
+                _rb.AddForce(collisionTangent.normalized * slideForce, ForceMode.Acceleration);
+
+                _nonFloorCollision = Vector3.zero; // Reset after applying force
             }
 
-            _rb.linearVelocity = desiredVelocity;
+            // Limit horizontal speed
+            if (horizontalVelocity.magnitude > maxHorizontalSpeed)
+            {
+                horizontalVelocity = horizontalVelocity.normalized * maxHorizontalSpeed;
+                _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
+            }
         }
 
         private void OnJump(InputAction.CallbackContext context)
@@ -78,61 +83,33 @@ namespace SpikeScape.Gameplay.Player
             if (IsGrounded())
             {
                 _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                //Debug.Log($"Jumped! Velocity.y={_rb.linearVelocity.y}");
-                Debug.Log("[{Time.fixedTime:F4}s] Jumped");
             }
         }
 
         private bool IsGrounded()
         {
-            return Physics.Raycast(transform.position, Vector3.down, 0.5f);
+            return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
         }
 
         private void OnCollisionStay(Collision collision)
         {
-            var numSideCollisions = 0;
-            _sideCollisionNormal = Vector3.zero;
-            var numCeilingCollisions = 0;
-            _ceilingCollisionNormal = Vector3.zero;
+            var numCollisions = 0;
+            _nonFloorCollision = Vector3.zero;
 
             foreach (ContactPoint contact in collision.contacts)
             {
-                //Ignore ground collisions
-                if (Vector3.Dot(contact.normal, Vector3.up) < 0.7f) // ~45 degrees
+                // Ignore ground collisions
+                if (Vector3.Dot(contact.normal, Vector3.up) < 0.7f) // Approximately 45 degrees
                 {
-                    numSideCollisions++;
-                    _sideCollisionNormal += contact.normal;
-                }
-
-                if (Vector3.Dot(contact.normal, Vector3.down) > 0.1f)
-                {
-                    numCeilingCollisions++;
-                    _ceilingCollisionNormal += contact.normal;
+                    numCollisions++;
+                    _nonFloorCollision += contact.normal;
                 }
             }
 
-            if (numSideCollisions > 0)
+            if (numCollisions > 0)
             {
-                //Debug.Log($"Summed side collision normal: {_sideCollisionNormal}, number of collisions: {numSideCollisions}");
-                _sideCollisionNormal /= numSideCollisions;
-                _sideCollisionNormal.y = 0; // Ignore vertical component
-                _sideCollisionNormal.Normalize();
-                //Debug.Log($"Side collision normal: {_sideCollisionNormal}");
-            }
-            else
-            {
-                _sideCollisionNormal = Vector3.zero;
-            }
-
-            if (numCeilingCollisions > 0)
-            {
-                _ceilingCollisionNormal /= numCeilingCollisions;
-                _ceilingCollisionNormal.Normalize();
-                //Debug.Log($"Ceiling collision normal: {_ceilingCollisionNormal}");
-            }
-            else
-            {
-                _ceilingCollisionNormal = Vector3.zero;
+                _nonFloorCollision /= numCollisions;
+                _nonFloorCollision.Normalize();
             }
         }
     }
