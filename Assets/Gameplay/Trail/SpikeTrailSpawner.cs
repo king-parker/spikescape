@@ -12,12 +12,23 @@ namespace SpikeScape.Gameplay.Trail
         [SerializeField] private GameObject spikeTrailPrefab;
         [SerializeField] private float spawnDistance = 1f;
         [SerializeField] private int maxSpikes = 10;
+        [SerializeField] private int spikeIncreasePerObjective = 1;
 
         [Header("Spike Pool Settings")]
         [SerializeField] private SpikePool spikePool;
 
         private Vector3 _lastSpawnPosition;
         private readonly List<SpikeController> _spawnedSpikes = new();
+
+        private void OnEnable()
+        {
+            Objective.ObjectiveController.OnObjectiveCollected += HandleObjectiveCollected;
+        }
+
+        private void OnDisable()
+        {
+            Objective.ObjectiveController.OnObjectiveCollected -= HandleObjectiveCollected;
+        }
 
         private void Start()
         {
@@ -48,6 +59,16 @@ namespace SpikeScape.Gameplay.Trail
                 _spawnedSpikes[0].Despawn();
                 _spawnedSpikes.RemoveAt(0);
             }
+        }
+
+        private void HandleObjectiveCollected()
+        {
+            IncreaseMaxSpikes();
+        }
+
+        private void IncreaseMaxSpikes()
+        {
+            maxSpikes += spikeIncreasePerObjective;
         }
     }
 }

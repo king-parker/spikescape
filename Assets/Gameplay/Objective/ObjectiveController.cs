@@ -1,5 +1,6 @@
 using UnityEngine;
 using SpikeScape.Utility.Gameplay;
+using System;
 
 namespace SpikeScape.Gameplay.Objective
 {
@@ -8,12 +9,16 @@ namespace SpikeScape.Gameplay.Objective
     /// </summary>
     public class ObjectiveController : MonoBehaviour, ITriggerReceiver
     {
+        public static event Action OnObjectiveCollected;
+
         public void OnTriggerReceived(Collider other)
         {
             if (other.CompareTag("Player"))
             {
                 Debug.Log("Objective reached by player!");
                 // Add logic for when the player reaches the objective
+
+                OnObjectiveCollected?.Invoke();
             }
         }
     }
