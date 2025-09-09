@@ -15,9 +15,6 @@ namespace SpikeScape.Gameplay.Objective
         {
             if (other.CompareTag("Player"))
             {
-                Debug.Log("Objective reached by player!");
-                // Add logic for when the player reaches the objective
-
                 OnObjectiveCollected?.Invoke();
             }
         }
