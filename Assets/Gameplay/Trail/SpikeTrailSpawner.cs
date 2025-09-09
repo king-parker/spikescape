@@ -42,7 +42,7 @@ namespace SpikeScape.Gameplay.Trail
             // Remove oldest spike if exceeding maxSpikes
             if (_spawnedSpikes.Count > maxSpikes)
             {
-                Destroy(_spawnedSpikes[0]);
+                _spawnedSpikes[0].GetComponent<SpikeController>().Despawn();
                 _spawnedSpikes.RemoveAt(0);
             }
         }
