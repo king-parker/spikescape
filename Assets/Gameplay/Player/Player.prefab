@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 5ac406278cfd33f40ae8ed9323b019ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -187,10 +187,11 @@ MonoBehaviour:
   turnSpeed: 120
   slideForce: 50
   jumpForce: 5
-  groundCheckDistance: 0.6
   coyoteTime: 0.2
   jumpBufferTime: 0.2
   variableJumpHeightMultiplier: 0.5
+  shpereCastRadius: 0.4
+  sphereCastOffset: 0.1
 --- !u!1 &4319927948092786057
 GameObject:
   m_ObjectHideFlags: 0
