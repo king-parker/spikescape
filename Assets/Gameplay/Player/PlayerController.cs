@@ -14,7 +14,13 @@ namespace SpikeScape.Gameplay.Player
 
         [Header("Jump Settings")]
         [SerializeField] private float jumpForce = 5f;
-        [SerializeField] private float groundCheckDistance = 0.5f;
+        [SerializeField] private float coyoteTime = 0.2f;
+        [SerializeField] private float jumpBufferTime = 0.2f;
+        [SerializeField] private float variableJumpHeightMultiplier = 0.5f;
+
+        [Header("Ground Detection")]
+        [SerializeField] private float shpereCastRadius = 0.4f;
+        [SerializeField] private float sphereCastOffset = 0.1f;
 
         private Rigidbody _rb;
         private InputAction _turnAction;
@@ -22,6 +28,9 @@ namespace SpikeScape.Gameplay.Player
         private InputAction _lookAction;
         private float _turnInput;
         private Vector3 _nonFloorCollision;
+        private bool _isJumping = false;
+        private float _coyoteTimerCounter = 0f;
+        private float _jumpBufferCounter = 0f;
 
         private void Awake()
         {
@@ -35,16 +44,41 @@ namespace SpikeScape.Gameplay.Player
             _lookAction = InputSystem.actions.FindAction(InputActionNames.Player.Look);
 
             _jumpAction.performed += OnJump;
+            _jumpAction.canceled += OnJumpCancel;
         }
 
         private void OnDisable()
         {
             _jumpAction.performed -= OnJump;
+            _jumpAction.canceled -= OnJumpCancel;
         }
 
         private void Update()
         {
+            // Read player inputs
             _turnInput = _turnAction.ReadValue<float>();
+
+            // Update jumping state
+            if (_isJumping && _rb.linearVelocity.y <= 0f)
+            {
+                _isJumping = false;
+            }
+
+            // Coyote time handling
+            if (IsGrounded() && !_isJumping)
+            {
+                _coyoteTimerCounter = coyoteTime;
+            }
+            else
+            {
+                _coyoteTimerCounter -= Time.deltaTime;
+            }
+
+            // Jump buffer handling
+            if (_jumpBufferCounter > 0f)
+            {
+                _jumpBufferCounter -= Time.deltaTime;
+            }
         }
 
         private void FixedUpdate()
@@ -76,19 +110,55 @@ namespace SpikeScape.Gameplay.Player
                 horizontalVelocity = horizontalVelocity.normalized * maxHorizontalSpeed;
                 _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
             }
+
+            // Handle jump if buffered and within coyote time
+            if (!_isJumping && _jumpBufferCounter > 0f && _coyoteTimerCounter > 0f)
+            {
+                _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z); // Reset vertical velocity
+
+                _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                _isJumping = true;
+
+                _jumpBufferCounter = 0f; // Reset jump buffer after jumping
+                _coyoteTimerCounter = 0f; // Reset coyote timer after jumping
+            }
         }
 
         private void OnJump(InputAction.CallbackContext context)
         {
-            if (IsGrounded())
+            if (context.performed)
             {
-                _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                _jumpBufferCounter = jumpBufferTime;
+            }
+        }
+
+        private void OnJumpCancel(InputAction.CallbackContext context)
+        {
+            if (context.canceled && _isJumping && _rb.linearVelocity.y > 0f)
+            {
+                // Reduce upward velocity for variable jump height
+                _rb.linearVelocity = new Vector3(
+                    _rb.linearVelocity.x,
+                    _rb.linearVelocity.y * variableJumpHeightMultiplier,
+                    _rb.linearVelocity.z
+                 );
             }
         }
 
         private bool IsGrounded()
         {
-            return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
+            Vector3 castPosition = transform.position + Vector3.down * sphereCastOffset;
+            Collider[] hits = Physics.OverlapSphere(castPosition, shpereCastRadius);
+
+            foreach (var hit in hits)
+            {
+                if (hit.transform.IsChildOf(transform) != gameObject && !hit.isTrigger)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void OnCollisionStay(Collision collision)
@@ -112,5 +182,15 @@ namespace SpikeScape.Gameplay.Player
                 _nonFloorCollision.Normalize();
             }
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            // Draw ground check sphere
+            Gizmos.color = Color.green;
+            Vector3 castPosition = transform.position + Vector3.down * sphereCastOffset;
+            Gizmos.DrawWireSphere(castPosition, shpereCastRadius);
+        }
+#endif
     }
 }
