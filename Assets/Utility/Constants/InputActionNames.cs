@@ -8,5 +8,10 @@ namespace SpikeScape
             public static string Jump = "Jump";
             public static string Look = "Look";
         }
+
+        public static class GameOver
+        {
+            public static string Restart = "Restart";
+        }
     }
 }

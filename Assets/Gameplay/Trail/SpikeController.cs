@@ -1,5 +1,6 @@
 using UnityEngine;
 using SpikeScape.Utility.Gameplay;
+using SpikeScape.Gameplay.Managers;
 
 namespace SpikeScape.Gameplay.Trail
 {
@@ -49,9 +50,7 @@ namespace SpikeScape.Gameplay.Trail
         {
             if (other.CompareTag("Player"))
             {
-                // Handle player collision with spikes
-                Debug.Log("Player hit spikes!");
-                // You can add more logic here, such as reducing player health or restarting the level.
+                GameManager.Instance.GameOver();
             }
         }
 

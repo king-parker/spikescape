@@ -234,4 +234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spikeTrailPrefab: {fileID: 4211731321056090896, guid: 27d9519d52eeb12468718dad54792345, type: 3}
   spawnDistance: 0.75
-  maxSpikes: 10
+  maxSpikes: 20
+  spikeIncreasePerObjective: 5
+  spikePool: {fileID: 0}

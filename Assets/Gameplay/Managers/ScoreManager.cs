@@ -1,5 +1,6 @@
 using SpikeScape.Gameplay.Objective;
 using SpikeScape.UI.HUD;
+using System;
 using UnityEngine;
 
 namespace SpikeScape.Gameplay.Managers
@@ -9,6 +10,7 @@ namespace SpikeScape.Gameplay.Managers
     /// </summary>
     public class ScoreManager : MonoBehaviour
     {
+        public static event Action<int> SendFinalScore;
         [SerializeField] private HUDController hudController;
         [SerializeField] private int pointsPerObjective = 1;
 
@@ -17,11 +19,13 @@ namespace SpikeScape.Gameplay.Managers
         private void OnEnable()
         {
             ObjectiveController.OnObjectiveCollected += HandleObjectiveCollected;
+            GameManager.OnGameOver += HandleGameOver;
         }
 
         private void OnDisable()
         {
             ObjectiveController.OnObjectiveCollected -= HandleObjectiveCollected;
+            GameManager.OnGameOver -= HandleGameOver;
         }
 
         private void Start()
@@ -33,6 +37,11 @@ namespace SpikeScape.Gameplay.Managers
         private void HandleObjectiveCollected()
         {
             IncreaseScore(pointsPerObjective);
+        }
+
+        private void HandleGameOver()
+        {
+            SendFinalScore?.Invoke(_score);
         }
 
         private void IncreaseScore(int amount)
