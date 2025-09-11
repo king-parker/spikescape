@@ -1,3 +1,4 @@
+using SpikeScape.Audio.Managers;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -114,14 +115,21 @@ namespace SpikeScape.Gameplay.Player
             // Handle jump if buffered and within coyote time
             if (!_isJumping && _jumpBufferCounter > 0f && _coyoteTimerCounter > 0f)
             {
-                _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z); // Reset vertical velocity
-
-                _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                _isJumping = true;
-
-                _jumpBufferCounter = 0f; // Reset jump buffer after jumping
-                _coyoteTimerCounter = 0f; // Reset coyote timer after jumping
+                Jump();
             }
+        }
+
+        private void Jump()
+        {
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z); // Reset vertical velocity
+
+            _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            _isJumping = true;
+
+            _jumpBufferCounter = 0f; // Reset jump buffer after jumping
+            _coyoteTimerCounter = 0f; // Reset coyote timer after jumping
+
+            SoundManager.Instance.PlayJump();
         }
 
         private void OnJump(InputAction.CallbackContext context)

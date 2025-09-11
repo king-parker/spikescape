@@ -1,3 +1,4 @@
+using SpikeScape.Audio.Managers;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,8 +39,10 @@ namespace SpikeScape.Gameplay.Managers
         {
             if (CurrentState == GameState.GameOver) return;
 
+            SoundManager.Instance.PlayGameOver();
             CurrentState = GameState.GameOver;
             Time.timeScale = 0f;
+
             OnGameOver?.Invoke();
         }
 

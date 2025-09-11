@@ -1281,6 +1281,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 575295047328480286, guid: 98c765cd34982334e9b2047c1c93ff8a, type: 3}
   m_PrefabInstance: {fileID: 174404049}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &683004090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 683004093}
+  - component: {fileID: 683004092}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &683004092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683004090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e580b04c099f7e489296a8f0829a1ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSourcePrefab: {fileID: 2535365907446265834, guid: db2ba7449996cba49a4f6c27ccbe30b0, type: 3}
+  poolSize: 5
+  jumpSFX: {fileID: 8300000, guid: 08d96826cb6fb804181b72a14b839d9f, type: 3}
+  collectSFX: {fileID: 8300000, guid: 60f7cabd5f64681428454a60dc3e2465, type: 3}
+  gameOverSFX: {fileID: 8300000, guid: 1d293c7a487f91846b70873844092287, type: 3}
+--- !u!4 &683004093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683004090}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &699290138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2915,7 +2964,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3723,6 +3772,7 @@ SceneRoots:
   - {fileID: 1478216468}
   - {fileID: 1883303154}
   - {fileID: 2048939691}
+  - {fileID: 683004093}
   - {fileID: 1760669218}
   - {fileID: 887633634}
   - {fileID: 1221036635}

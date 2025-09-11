@@ -1,6 +1,7 @@
 using UnityEngine;
 using SpikeScape.Utility.Gameplay;
 using System;
+using SpikeScape.Audio.Managers;
 
 namespace SpikeScape.Gameplay.Objective
 {
@@ -65,6 +66,8 @@ namespace SpikeScape.Gameplay.Objective
             if (other.CompareTag("Player"))
             {
                 OnObjectiveCollected?.Invoke();
+
+                SoundManager.Instance.PlayCollect();
 
                 MoveToRandomSpawnPoint();
             }
