@@ -15,6 +15,11 @@ namespace SpikeScape.Audio.Managers
         [SerializeField] private AudioClip gameplayMusic;
         [SerializeField] private AudioClip gameOverMusic;
 
+        [Header("Fade Settings")]
+        [SerializeField] private float fadeDuration = 1f;
+
+        private Coroutine _fadeCoroutine;
+
         private void OnEnable()
         {
             Gameplay.Managers.GameManager.OnGameOver += HandleGameOver;
@@ -37,10 +42,10 @@ namespace SpikeScape.Audio.Managers
 
         private void HandleGameOver()
         {
-            PlayMusic(gameOverMusic);
+            PlayMusic(gameOverMusic, useFade: true);
         }
 
-        private void PlayMusic(AudioClip clip)
+        private void PlayMusic(AudioClip clip, bool useFade = false)
         {
             if (musicSource.clip == clip) return;
 
@@ -50,9 +55,52 @@ namespace SpikeScape.Audio.Managers
                 return;
             }
 
-            musicSource.clip = clip;
-            musicSource.loop = true;
+            if (_fadeCoroutine != null)
+            {
+                StopCoroutine(_fadeCoroutine);
+            }
+
+            if (useFade && musicSource.isPlaying)
+            {
+                _fadeCoroutine = StartCoroutine(FadeOutIn(clip));
+            }
+            else
+            {
+                musicSource.Stop();
+                musicSource.clip = clip;
+                musicSource.loop = true;
+                musicSource.Play();
+            }
+        }
+
+        private System.Collections.IEnumerator FadeOutIn(AudioClip newClip)
+        {
+            // Fade out
+            var startVolume = musicSource.volume;
+            var elapsed = 0f;
+
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                musicSource.volume = Mathf.Lerp(startVolume, 0f, elapsed / fadeDuration);
+                yield return null;
+            }
+
+            musicSource.Stop();
+            musicSource.clip = newClip;
             musicSource.Play();
+
+            // Fade in
+            elapsed = 0f;
+
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                musicSource.volume = Mathf.Lerp(0f, startVolume, elapsed / fadeDuration);
+                yield return null;
+            }
+
+            musicSource.volume = startVolume;
         }
     }
 }

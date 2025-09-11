@@ -3063,6 +3063,7 @@ MonoBehaviour:
   musicSource: {fileID: 2048939689}
   gameplayMusic: {fileID: 8300000, guid: e15a790c903830f4db0d228a24c2eec1, type: 3}
   gameOverMusic: {fileID: 8300000, guid: c16f55bb49031714980ff4de72491e5e, type: 3}
+  fadeDuration: 0.5
 --- !u!4 &2048939691
 Transform:
   m_ObjectHideFlags: 0
