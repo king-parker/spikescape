@@ -10,11 +10,14 @@ namespace SpikeScape.Gameplay.Managers
     /// </summary>
     public class ScoreManager : MonoBehaviour
     {
-        public static event Action<int> SendFinalScore;
+        public static event Action<int, int> SendFinalScore; // (final score, high score)
         [SerializeField] private HUDController hudController;
         [SerializeField] private int pointsPerObjective = 1;
 
         private int _score;
+        private int _highScore;
+
+        private const string HighScoreKey = "HighScore";
 
         private void OnEnable()
         {
@@ -30,8 +33,12 @@ namespace SpikeScape.Gameplay.Managers
 
         private void Start()
         {
+            // Initialize score and update HUD
             _score = 0;
             hudController.UpdateScore(_score);
+
+            // Load high score from PlayerPrefs
+            _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
         }
 
         private void HandleObjectiveCollected()
@@ -41,7 +48,15 @@ namespace SpikeScape.Gameplay.Managers
 
         private void HandleGameOver()
         {
-            SendFinalScore?.Invoke(_score);
+            // Check and update high score if necessary
+            if (_score > _highScore)
+            {
+                _highScore = _score;
+                PlayerPrefs.SetInt(HighScoreKey, _highScore);
+                PlayerPrefs.Save();
+            }
+
+            SendFinalScore?.Invoke(_score, _highScore);
         }
 
         private void IncreaseScore(int amount)
