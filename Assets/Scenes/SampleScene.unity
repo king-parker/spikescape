@@ -3008,6 +3008,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2251930660361032316, guid: 4daae170c4e773e4098635d42772faac, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4578528497420021696, guid: 4daae170c4e773e4098635d42772faac, type: 3}
       propertyPath: m_Name
       value: DeathFloor

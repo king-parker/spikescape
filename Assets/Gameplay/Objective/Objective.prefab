@@ -118,7 +118,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1a0939410a4e2114598d8d5ddb260357, type: 2}
+  - {fileID: 2100000, guid: f8ed15052d6f8594c98d1dafd6e99755, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -332,7 +332,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a2122f3cde2c1294390896fb1348778e, type: 2}
+      objectReference: {fileID: 2100000, guid: 52af866a25e37a44bb60dd0b410cd860, type: 2}
     - target: {fileID: 919132149155446097, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: m_Name
       value: Pyramid (5)
@@ -414,7 +414,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a2122f3cde2c1294390896fb1348778e, type: 2}
+      objectReference: {fileID: 2100000, guid: 52af866a25e37a44bb60dd0b410cd860, type: 2}
     - target: {fileID: 919132149155446097, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: m_Name
       value: Pyramid
@@ -496,7 +496,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a2122f3cde2c1294390896fb1348778e, type: 2}
+      objectReference: {fileID: 2100000, guid: 52af866a25e37a44bb60dd0b410cd860, type: 2}
     - target: {fileID: 919132149155446097, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: m_Name
       value: Pyramid (2)
@@ -578,7 +578,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a2122f3cde2c1294390896fb1348778e, type: 2}
+      objectReference: {fileID: 2100000, guid: 52af866a25e37a44bb60dd0b410cd860, type: 2}
     - target: {fileID: 919132149155446097, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: m_Name
       value: Pyramid (1)
@@ -660,7 +660,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a2122f3cde2c1294390896fb1348778e, type: 2}
+      objectReference: {fileID: 2100000, guid: 52af866a25e37a44bb60dd0b410cd860, type: 2}
     - target: {fileID: 919132149155446097, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: m_Name
       value: Pyramid (4)
@@ -742,7 +742,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a2122f3cde2c1294390896fb1348778e, type: 2}
+      objectReference: {fileID: 2100000, guid: 52af866a25e37a44bb60dd0b410cd860, type: 2}
     - target: {fileID: 919132149155446097, guid: aa0588156b8bba94c9d542dcb0d1692a, type: 3}
       propertyPath: m_Name
       value: Pyramid (3)
