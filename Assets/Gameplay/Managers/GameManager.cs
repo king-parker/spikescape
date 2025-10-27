@@ -1,3 +1,4 @@
+using Spikescape.Leaderboard;
 using SpikeScape.Audio.Managers;
 using System;
 using UnityEngine;
@@ -33,6 +34,11 @@ namespace SpikeScape.Gameplay.Managers
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void Start()
+        {
+            LootLockerManager.Instance.InitializeLootLocker();
         }
 
         public void GameOver()
