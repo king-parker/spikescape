@@ -962,6 +962,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 3324635575291366892}
   fadeDuration: 1
   scoreText: {fileID: 1318880239196384516}
+  restartButton: {fileID: 6028152959977148524}
 --- !u!1 &7142590068793125404
 GameObject:
   m_ObjectHideFlags: 0

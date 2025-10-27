@@ -1,6 +1,7 @@
 using SpikeScape.Gameplay.Managers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SpikeScape.UI.GameOver
 {
@@ -19,6 +20,9 @@ namespace SpikeScape.UI.GameOver
         [Header("Text")]
         [SerializeField] private TextMeshProUGUI scoreText;
 
+        [Header("Buttons")]
+        [SerializeField] private Button restartButton;
+
         private void Awake()
         {
             canvasGroup.gameObject.SetActive(false);
@@ -34,6 +38,14 @@ namespace SpikeScape.UI.GameOver
         {
             GameManager.OnGameOver -= ShowUI;
             ScoreManager.SendFinalScore -= UpdateScore;
+        }
+
+        private void Start()
+        {
+            restartButton.onClick.AddListener(() =>
+            {
+                GameManager.Instance.RestartGame();
+            });
         }
 
         public void ShowUI()
