@@ -18,7 +18,6 @@ namespace SpikeScape.UI.GameOver
 
         [Header("Text")]
         [SerializeField] private TextMeshProUGUI scoreText;
-        [SerializeField] private TextMeshProUGUI highScoreText;
 
         private void Awake()
         {
@@ -47,7 +46,8 @@ namespace SpikeScape.UI.GameOver
         public void UpdateScore(int score, int highScore)
         {
             scoreText.text = $"Score: {score}";
-            highScoreText.text = $"High Score: {highScore}";
+            // TODO: Remove high from method parameters
+            // highScoreText.text = $"High Score: {highScore}";
         }
 
         private System.Collections.IEnumerator FadeInRoutine()
