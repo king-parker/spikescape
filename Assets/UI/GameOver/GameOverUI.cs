@@ -1,3 +1,4 @@
+using Spikescape.Leaderboard;
 using SpikeScape.Gameplay.Managers;
 using TMPro;
 using UnityEngine;
@@ -22,6 +23,13 @@ namespace SpikeScape.UI.GameOver
 
         [Header("Buttons")]
         [SerializeField] private Button restartButton;
+        [SerializeField] private Button submitScoreButton;
+
+        [Header("Input Fields")]
+        [SerializeField] private TMP_InputField nameInputField;
+
+        private int _finalScore;
+        private bool _scoreReceived = false;
 
         private void Awake()
         {
@@ -32,6 +40,7 @@ namespace SpikeScape.UI.GameOver
         {
             GameManager.OnGameOver += ShowUI;
             ScoreManager.SendFinalScore += UpdateScore;
+            // TODO: Subscribe to LootLockerManager.OnScoreSubmitted to handle submission result
         }
 
         private void OnDisable()
@@ -46,6 +55,11 @@ namespace SpikeScape.UI.GameOver
             {
                 GameManager.Instance.RestartGame();
             });
+
+            submitScoreButton.onClick.AddListener(OnSubmitScoreButtonClicked);
+
+            _finalScore = 0;
+            _scoreReceived = false;
         }
 
         public void ShowUI()
@@ -58,8 +72,19 @@ namespace SpikeScape.UI.GameOver
         public void UpdateScore(int score, int highScore)
         {
             scoreText.text = $"Score: {score}";
+            _finalScore = score;
+            _scoreReceived = true;
             // TODO: Remove high from method parameters
             // highScoreText.text = $"High Score: {highScore}";
+        }
+
+        private void OnSubmitScoreButtonClicked()
+        {
+            if (!_scoreReceived) return;
+
+            string playerName = nameInputField.text;
+            LootLockerManager.Instance.SubmitScore(playerName, _finalScore);
+            submitScoreButton.interactable = false;
         }
 
         private System.Collections.IEnumerator FadeInRoutine()

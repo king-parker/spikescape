@@ -963,6 +963,8 @@ MonoBehaviour:
   fadeDuration: 1
   scoreText: {fileID: 1318880239196384516}
   restartButton: {fileID: 6028152959977148524}
+  submitScoreButton: {fileID: 7074743311528224667}
+  nameInputField: {fileID: 461595113523544086}
 --- !u!1 &7142590068793125404
 GameObject:
   m_ObjectHideFlags: 0
