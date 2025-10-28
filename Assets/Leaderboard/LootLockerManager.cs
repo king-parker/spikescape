@@ -1,5 +1,8 @@
 using LootLocker.Requests;
+using SpikeScape.Gameplay.Managers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Spikescape.Leaderboard
@@ -9,8 +12,10 @@ namespace Spikescape.Leaderboard
         public static LootLockerManager Instance { get; private set; }
 
         public static Action<bool> OnScoreSubmitted;
+        public static Action<List<LeaderboardEntry>> OnTopScoresReceived;
 
         [SerializeField] private string leaderboardKey = "spikescape_main";
+        [SerializeField] private int maxTopScores = 100;
 
         private void Awake()
         {
@@ -23,6 +28,16 @@ namespace Spikescape.Leaderboard
             {
                 Destroy(gameObject);
             }
+        }
+
+        private void OnEnable()
+        {
+            GameManager.OnGameOver += GetMaxTopScores;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.OnGameOver -= GetMaxTopScores;
         }
 
         public void InitializeLootLocker()
@@ -54,10 +69,39 @@ namespace Spikescape.Leaderboard
                 if (response.success)
                 {
                     Debug.Log("Score submitted successfully.");
+                    GetMaxTopScores();
                 }
                 else
                 {
                     Debug.LogError("Failed to submit score: " + response.errorData);
+                }
+            });
+        }
+
+        public void GetMaxTopScores()
+        {
+            GetTopScores(maxTopScores);
+        }
+
+        public void GetTopScores(int count)
+        {
+            LootLockerSDKManager.GetScoreList(leaderboardKey, count, 0, (response) =>
+            {
+                if (response.success)
+                {
+                    Debug.Log("Top scores retrieved successfully.");
+                    var entries = response.items.Select(item =>
+                    {
+                        var playerName = JsonUtility.FromJson<ScoreMetadata>(item.metadata).playerName;
+                        return new LeaderboardEntry(playerName, item.score);
+                    }).ToList();
+
+                    OnTopScoresReceived?.Invoke(entries);
+                }
+                else
+                {
+                    Debug.LogError("Failed to retrieve top scores: " + response.errorData);
+                    OnTopScoresReceived?.Invoke(new List<LeaderboardEntry>());
                 }
             });
         }
