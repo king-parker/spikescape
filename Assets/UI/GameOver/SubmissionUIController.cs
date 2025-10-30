@@ -87,11 +87,8 @@ namespace Spikescape.UI.GameOver
 
         private void OnSubmitScoreButtonClicked()
         {
-            Debug.Log("Submit Score button clicked. Checking if score has been received");
-            Debug.Log($"_scoreReceived: {_scoreReceived}");
             if (!_scoreReceived) return;
 
-            Debug.Log("Processing score submission...");
             string playerName = nameInputField.text.Trim();
             string validationError = NameValidator.ValidateName(playerName);
 
@@ -123,7 +120,6 @@ namespace Spikescape.UI.GameOver
 
         private void UpdateScore(int score, int highScore)
         {
-            Debug.Log($"SubmissionUIController received final score: {score}");
             _finalScore = score;
             _scoreReceived = true;
             TryAllowScoreSubmission();
