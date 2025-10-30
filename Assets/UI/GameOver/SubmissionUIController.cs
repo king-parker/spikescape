@@ -30,6 +30,11 @@ namespace Spikescape.UI.GameOver
         private int _lowestHighScore;
         private bool _scoreSent = false;
 
+        private void Awake()
+        {
+            nameInputField.onValidateInput += OnValidateInputField;
+        }
+
         private void Start()
         {
             restartButton.onClick.AddListener(() =>
@@ -54,6 +59,32 @@ namespace Spikescape.UI.GameOver
             LootLockerManager.OnLowestHighScoreFound -= RecordLowestHighScore;
         }
 
+        private char OnValidateInputField(string input, int charIndex, char addedChar)
+        {
+            // Allow letters, numbers, underscores, and hyphens
+            if (char.IsLetterOrDigit(addedChar) || addedChar == '_' || addedChar == '-')
+            {
+                return addedChar; // Valid character
+            }
+
+            // Allow a single space, but not at the start or end, and not consecutive
+            if (addedChar == ' ')
+            {
+                if (charIndex == 0)
+                {
+                    return '\0'; // Reject space at start
+                }
+                if (charIndex > 0 && input[charIndex - 1] == ' ')
+                {
+                    return '\0'; // Reject consecutive spaces
+                }
+                return addedChar; // Valid space
+            }
+
+            // Otherwise, reject the character
+            return '\0'; // Null character
+        }
+
         private void OnSubmitScoreButtonClicked()
         {
             Debug.Log("Submit Score button clicked. Checking if score has been received");
@@ -61,7 +92,7 @@ namespace Spikescape.UI.GameOver
             if (!_scoreReceived) return;
 
             Debug.Log("Processing score submission...");
-            string playerName = nameInputField.text;
+            string playerName = nameInputField.text.Trim();
             string validationError = NameValidator.ValidateName(playerName);
 
             if (validationError != null)
