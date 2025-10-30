@@ -1534,6 +1534,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaderboard
       objectReference: {fileID: 0}
+    - target: {fileID: 4649157277303363224, guid: 0f3230e5d054fb34ea8d12f6e4d00f00, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714024198382594619, guid: 0f3230e5d054fb34ea8d12f6e4d00f00, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5582918528032436455, guid: 0f3230e5d054fb34ea8d12f6e4d00f00, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
