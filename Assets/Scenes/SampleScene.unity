@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaderboardKey: spikescape_main
   maxTopScores: 100
+  leaderboardRefreshDelay: 1.5
 --- !u!1 &8205926
 GameObject:
   m_ObjectHideFlags: 0
@@ -10947,6 +10948,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 570984666}
     m_Modifications:
+    - target: {fileID: 1400118043711752806, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -195
+      objectReference: {fileID: 0}
     - target: {fileID: 1559843482949603091, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

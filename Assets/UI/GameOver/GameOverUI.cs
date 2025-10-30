@@ -1,13 +1,6 @@
-using Spikescape.Leaderboard;
-using Spikescape.UI.Common;
 using Spikescape.Gameplay.Managers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Concurrent;
-using System;
-using System.Threading;
-using Spikescape.Utility.Threading;
 
 namespace Spikescape.UI.GameOver
 {
@@ -26,19 +19,10 @@ namespace Spikescape.UI.GameOver
         [Header("Text")]
         [SerializeField] private TextMeshProUGUI scoreText;
 
-        [Header("Buttons")]
-        [SerializeField] private Button restartButton;
-        [SerializeField] private Button submitScoreButton;
-
-        [Header("Input Fields")]
-        [SerializeField] private TMP_InputField nameInputField;
-
-        [Header("Toast Notification")]
-        [SerializeField] private ToastController toast;
-        [SerializeField] private float toastDuration = 2f;
+        [Header("Submission UI")]
+        [SerializeField] private SubmissionUIController submissionUI;
 
         private int _finalScore;
-        private bool _scoreReceived = false;
 
         private void Awake()
         {
@@ -49,34 +33,24 @@ namespace Spikescape.UI.GameOver
         {
             GameManager.OnGameOver += ShowUI;
             ScoreManager.SendFinalScore += UpdateScore;
-            // TODO: Subscribe to LootLockerManager.OnScoreSubmitted to handle submission result
-            LootLockerManager.OnScoreSubmitted += OnScoreSubmitted;
         }
 
         private void OnDisable()
         {
             GameManager.OnGameOver -= ShowUI;
             ScoreManager.SendFinalScore -= UpdateScore;
-            LootLockerManager.OnScoreSubmitted -= OnScoreSubmitted;
         }
 
         private void Start()
         {
-            restartButton.onClick.AddListener(() =>
-            {
-                GameManager.Instance.RestartGame();
-            });
-
-            submitScoreButton.onClick.AddListener(OnSubmitScoreButtonClicked);
-
             _finalScore = 0;
-            _scoreReceived = false;
         }
 
         public void ShowUI()
         {
             canvasGroup.alpha = 0f;
             canvasGroup.gameObject.SetActive(true);
+            if (submissionUI != null) { submissionUI.HideSubmissionUI(); } // Hide submission UI until we know if it's needed
             StartCoroutine(FadeInRoutine());
         }
 
@@ -84,40 +58,8 @@ namespace Spikescape.UI.GameOver
         {
             scoreText.text = $"Score: {score}";
             _finalScore = score;
-            _scoreReceived = true;
-            // TODO: Remove high from method parameters
+            // TODO: Remove highScore from method parameters
             // highScoreText.text = $"High Score: {highScore}";
-        }
-
-        private void OnSubmitScoreButtonClicked()
-        {
-            if (!_scoreReceived) return;
-
-            string playerName = nameInputField.text;
-            string validationError = NameValidator.ValidateName(playerName);
-
-            if (validationError != null)
-            {
-                toast.Show(validationError, toastDuration);
-                nameInputField.text = string.Empty; // Clear invalid input
-                submitScoreButton.interactable = true; // Make sure button is interactable
-                return;
-            }
-
-            LootLockerManager.Instance.SubmitScore(playerName, _finalScore);
-            submitScoreButton.interactable = false;
-        }
-
-        private void OnScoreSubmitted(bool success)
-        {
-            MainThreadDispatcher.Run(() =>
-            {
-                if (!success)
-                {
-                    toast.Show("Failed to submit score. Please try again.", toastDuration);
-                    submitScoreButton.interactable = true; // Re-enable button on failure
-                }
-            });
         }
 
         private System.Collections.IEnumerator FadeInRoutine()

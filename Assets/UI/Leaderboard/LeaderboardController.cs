@@ -1,7 +1,9 @@
 using Spikescape.Leaderboard;
 using Spikescape.UI.Leaderboard;
+using Spikescape.Utility.Threading;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LeaderboardController : MonoBehaviour
 {
@@ -20,6 +22,11 @@ public class LeaderboardController : MonoBehaviour
 
     public void UpdateLeaderboard(List<LeaderboardEntry> entries)
     {
+        MainThreadDispatcher.Run(() => PopulateLeaderboardEntries(entries));
+    }
+
+    private void PopulateLeaderboardEntries(List<LeaderboardEntry> entries)
+    {
         // Clear existing entries
         foreach (Transform child in leaderboardContent)
         {
@@ -36,5 +43,8 @@ public class LeaderboardController : MonoBehaviour
             entryController.PlayerName = entryData.PlayerName;
             entryController.Score = entryData.Score;
         }
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(leaderboardContent.GetComponent<RectTransform>());
     }
 }

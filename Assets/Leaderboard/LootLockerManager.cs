@@ -13,9 +13,11 @@ namespace Spikescape.Leaderboard
 
         public static Action<bool> OnScoreSubmitted;
         public static Action<List<LeaderboardEntry>> OnTopScoresReceived;
+        public static Action<int> OnLowestHighScoreFound;
 
         [SerializeField] private string leaderboardKey = "spikescape_main";
         [SerializeField] private int maxTopScores = 100;
+        [SerializeField] private float leaderboardRefreshDelay = 1.0f;
 
         private void Awake()
         {
@@ -46,11 +48,11 @@ namespace Spikescape.Leaderboard
             {
                 if (response.success)
                 {
-                    Debug.Log("LootLocker session started successfully.");
+                    Debug.Log("LootLockerManager: LootLocker session started successfully.");
                 }
                 else
                 {
-                    Debug.LogError("Failed to start LootLocker session: " + response.errorData);
+                    Debug.LogError("LootLockerManager: Failed to start LootLocker session: " + response.errorData);
                 }
             });
         }
@@ -66,13 +68,13 @@ namespace Spikescape.Leaderboard
             {
                 if (response.success)
                 {
-                    Debug.Log("Score submitted successfully.");
+                    Debug.Log("LootLockerManager: Score submitted successfully.");
                     OnScoreSubmitted?.Invoke(true);
-                    GetMaxTopScores();
+                    StartCoroutine(RefreshLeaderboardAfterDelay(leaderboardRefreshDelay));
                 }
                 else
                 {
-                    Debug.LogError("Failed to submit score: " + response.errorData);
+                    Debug.LogError("LootLockerManager: Failed to submit score: " + response.errorData);
                     OnScoreSubmitted?.Invoke(false);
                 }
             });
@@ -89,7 +91,7 @@ namespace Spikescape.Leaderboard
             {
                 if (response.success)
                 {
-                    Debug.Log("Top scores retrieved successfully.");
+                    Debug.Log("LootLockerManager: Top scores retrieved successfully.");
                     var entries = response.items.Select(item =>
                     {
                         var playerName = JsonUtility.FromJson<ScoreMetadata>(item.metadata).playerName;
@@ -97,13 +99,24 @@ namespace Spikescape.Leaderboard
                     }).ToList();
 
                     OnTopScoresReceived?.Invoke(entries);
+
+                    if (entries.Count > 0)
+                    {
+                        OnLowestHighScoreFound?.Invoke(entries.Last().Score);
+                    }
                 }
                 else
                 {
-                    Debug.LogError("Failed to retrieve top scores: " + response.errorData);
+                    Debug.LogError("LootLockerManager: Failed to retrieve top scores: " + response.errorData);
                     OnTopScoresReceived?.Invoke(new List<LeaderboardEntry>());
                 }
             });
+        }
+
+        private System.Collections.IEnumerator RefreshLeaderboardAfterDelay(float delay)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+            GetMaxTopScores();
         }
     }
 }
