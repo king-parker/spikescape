@@ -4,6 +4,10 @@ using Spikescape.Gameplay.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Concurrent;
+using System;
+using System.Threading;
+using Spikescape.Utility.Threading;
 
 namespace Spikescape.UI.GameOver
 {
@@ -46,12 +50,14 @@ namespace Spikescape.UI.GameOver
             GameManager.OnGameOver += ShowUI;
             ScoreManager.SendFinalScore += UpdateScore;
             // TODO: Subscribe to LootLockerManager.OnScoreSubmitted to handle submission result
+            LootLockerManager.OnScoreSubmitted += OnScoreSubmitted;
         }
 
         private void OnDisable()
         {
             GameManager.OnGameOver -= ShowUI;
             ScoreManager.SendFinalScore -= UpdateScore;
+            LootLockerManager.OnScoreSubmitted -= OnScoreSubmitted;
         }
 
         private void Start()
@@ -100,6 +106,18 @@ namespace Spikescape.UI.GameOver
 
             LootLockerManager.Instance.SubmitScore(playerName, _finalScore);
             submitScoreButton.interactable = false;
+        }
+
+        private void OnScoreSubmitted(bool success)
+        {
+            MainThreadDispatcher.Run(() =>
+            {
+                if (!success)
+                {
+                    toast.Show("Failed to submit score. Please try again.", toastDuration);
+                    submitScoreButton.interactable = true; // Re-enable button on failure
+                }
+            });
         }
 
         private System.Collections.IEnumerator FadeInRoutine()

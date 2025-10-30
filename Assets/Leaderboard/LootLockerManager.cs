@@ -47,12 +47,10 @@ namespace Spikescape.Leaderboard
                 if (response.success)
                 {
                     Debug.Log("LootLocker session started successfully.");
-                    OnScoreSubmitted?.Invoke(true);
                 }
                 else
                 {
                     Debug.LogError("Failed to start LootLocker session: " + response.errorData);
-                    OnScoreSubmitted?.Invoke(false);
                 }
             });
         }
@@ -69,11 +67,13 @@ namespace Spikescape.Leaderboard
                 if (response.success)
                 {
                     Debug.Log("Score submitted successfully.");
+                    OnScoreSubmitted?.Invoke(true);
                     GetMaxTopScores();
                 }
                 else
                 {
                     Debug.LogError("Failed to submit score: " + response.errorData);
+                    OnScoreSubmitted?.Invoke(false);
                 }
             });
         }

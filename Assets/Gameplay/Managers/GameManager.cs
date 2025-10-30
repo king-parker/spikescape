@@ -3,6 +3,7 @@ using Spikescape.Audio.Managers;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Spikescape.Utility.Threading;
 
 namespace Spikescape.Gameplay.Managers
 {
@@ -34,6 +35,8 @@ namespace Spikescape.Gameplay.Managers
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            InitMainThreadDispacther();
         }
 
         private void Start()
@@ -76,6 +79,15 @@ namespace Spikescape.Gameplay.Managers
             // TODO: Replace when main menu is implemented
             // Reload the current scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        private void InitMainThreadDispacther()
+        {
+            if (FindFirstObjectByType<MainThreadDispatcher>() == null)
+            {
+                var dispatcherGO = new GameObject("MainThreadDispatcher");
+                dispatcherGO.AddComponent<MainThreadDispatcher>();
+            }
         }
     }
 }
