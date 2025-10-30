@@ -1,4 +1,4 @@
-namespace SpikeScape.Utility.Gameplay
+namespace Spikescape.Utility.Gameplay
 {
     /// <summary>
     /// Interface for objects that can receive trigger events.

@@ -1,10 +1,10 @@
 using Spikescape.Leaderboard;
-using SpikeScape.Audio.Managers;
+using Spikescape.Audio.Managers;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SpikeScape.Gameplay.Managers
+namespace Spikescape.Gameplay.Managers
 {
     /// <summary>
     /// Manages overall game state and behavior.

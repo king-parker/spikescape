@@ -11,7 +11,7 @@ namespace Spikescape.Leaderboard
                 return "Internal system error. Try again.";
 
             if (!NameFilter.Instance.IsNameValid(name))
-                return "Innapropriate name detected. Please try something else.";
+                return "Inappropriate name detected. Please try something else.";
 
             return null;
         } 

@@ -1,9 +1,9 @@
-using SpikeScape.Audio.Managers;
+using Spikescape.Audio.Managers;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace SpikeScape.Gameplay.Player
+namespace Spikescape.Gameplay.Player
 {
     public class PlayerController : MonoBehaviour
     {

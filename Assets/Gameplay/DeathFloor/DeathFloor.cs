@@ -1,7 +1,7 @@
-using SpikeScape.Gameplay.Managers;
+using Spikescape.Gameplay.Managers;
 using UnityEngine;
 
-namespace SpikeScape.Gameplay.DeathFloor
+namespace Spikescape.Gameplay.DeathFloor
 {
     /// <summary>
     /// Represents a death floor in the game that can trigger player death upon contact.

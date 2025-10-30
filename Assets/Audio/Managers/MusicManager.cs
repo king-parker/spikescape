@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SpikeScape.Audio.Managers
+namespace Spikescape.Audio.Managers
 {
     /// <summary>
     /// Manages background music and related audio functionalities.

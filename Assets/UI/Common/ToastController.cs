@@ -7,7 +7,7 @@ namespace Spikescape.UI.Common
     /// <summary>
     /// Manages toast notifications within the user interface.
     /// </summary>
-    /// <remarks>This class is responsible for displaying brief messages endAlpha the user, typically used for
+    /// <remarks>This class is responsible for displaying brief messages to the user, typically used for
     /// notifications or alerts that do not require immediate user interaction.</remarks>
     public class ToastController : MonoBehaviour
     {

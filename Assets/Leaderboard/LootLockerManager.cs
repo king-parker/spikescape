@@ -1,5 +1,5 @@
 using LootLocker.Requests;
-using SpikeScape.Gameplay.Managers;
+using Spikescape.Gameplay.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

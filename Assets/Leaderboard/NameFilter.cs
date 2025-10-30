@@ -30,6 +30,8 @@ namespace Spikescape.Leaderboard
 
         private void Start()
         {
+            if (IsReady) return;
+
             _ = LoadBannedWordsAsync();
         }
 
@@ -38,7 +40,7 @@ namespace Spikescape.Leaderboard
             if (!IsReady)
             {
                 Debug.LogError("NameFilter accessed before it is ready.");
-                throw new System.Exception("NameFilter accessed before it is ready.");
+                throw new System.InvalidOperationException("NameFilter accessed before it is ready.");
             }
 
             var nameWords = playerName

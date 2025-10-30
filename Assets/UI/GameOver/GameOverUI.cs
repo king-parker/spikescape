@@ -1,11 +1,11 @@
 using Spikescape.Leaderboard;
 using Spikescape.UI.Common;
-using SpikeScape.Gameplay.Managers;
+using Spikescape.Gameplay.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SpikeScape.UI.GameOver
+namespace Spikescape.UI.GameOver
 {
     /// <summary>
     /// Represents the user interface displayed when the game is over.

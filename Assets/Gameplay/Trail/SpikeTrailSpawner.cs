@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SpikeScape.Gameplay.Trail
+namespace Spikescape.Gameplay.Trail
 {
     /// <summary>
     /// Spawns the spike trail behind the player at regular intervals.

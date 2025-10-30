@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace SpikeScape.UI.HUD
+namespace Spikescape.UI.HUD
 {
     /// <summary>
     /// Manages the Heads-Up Display (HUD) elements in the game.
