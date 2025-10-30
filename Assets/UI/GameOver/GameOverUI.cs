@@ -1,4 +1,5 @@
 using Spikescape.Leaderboard;
+using Spikescape.UI.Common;
 using SpikeScape.Gameplay.Managers;
 using TMPro;
 using UnityEngine;
@@ -27,6 +28,9 @@ namespace SpikeScape.UI.GameOver
 
         [Header("Input Fields")]
         [SerializeField] private TMP_InputField nameInputField;
+
+        [Header("Toast Notification")]
+        [SerializeField] private ToastController toast;
 
         private int _finalScore;
         private bool _scoreReceived = false;

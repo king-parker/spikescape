@@ -10975,6 +10975,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2127090124469408985, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127090124469408985, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127090124469408985, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127090124469408985, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127090124469408985, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127090124469408985, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2379516270849093634, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -11185,6 +11209,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6695139383633709745, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366159359110973200, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366159359110973200, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8490352947316895405, guid: 27debb4a1fd18e24b9ad7abaae351a21, type: 3}
