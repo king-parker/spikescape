@@ -73,6 +73,7 @@ namespace Spikescape.Leaderboard
                 _bannedWords = new HashSet<string>();
             }
 
+            IsReady = true;
             await Task.Yield();
         }
     }

@@ -31,6 +31,7 @@ namespace SpikeScape.UI.GameOver
 
         [Header("Toast Notification")]
         [SerializeField] private ToastController toast;
+        [SerializeField] private float toastDuration = 2f;
 
         private int _finalScore;
         private bool _scoreReceived = false;
@@ -87,6 +88,16 @@ namespace SpikeScape.UI.GameOver
             if (!_scoreReceived) return;
 
             string playerName = nameInputField.text;
+            string validationError = NameValidator.ValidateName(playerName);
+
+            if (validationError != null)
+            {
+                toast.Show(validationError, toastDuration);
+                nameInputField.text = string.Empty; // Clear invalid input
+                submitScoreButton.interactable = true; // Make sure button is interactable
+                return;
+            }
+
             LootLockerManager.Instance.SubmitScore(playerName, _finalScore);
             submitScoreButton.interactable = false;
         }
