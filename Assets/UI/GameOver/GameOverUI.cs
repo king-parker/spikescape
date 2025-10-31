@@ -60,6 +60,7 @@ namespace Spikescape.UI.GameOver
             _finalScore = score;
             // TODO: Remove highScore from method parameters
             // highScoreText.text = $"High Score: {highScore}";
+            if (submissionUI != null && !submissionUI.UIEnabled) { submissionUI.UpdateScore(score, highScore); }
         }
 
         private System.Collections.IEnumerator FadeInRoutine()

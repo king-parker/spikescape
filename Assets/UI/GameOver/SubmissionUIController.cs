@@ -13,6 +13,8 @@ namespace Spikescape.UI.GameOver
     /// </summary>
     public class SubmissionUIController : MonoBehaviour
     {
+        public bool UIEnabled { get; private set; } = false;
+
         [Header("Buttons")]
         [SerializeField] private Button restartButton;
         [SerializeField] private Button submitScoreButton;
@@ -118,7 +120,7 @@ namespace Spikescape.UI.GameOver
             });
         }
 
-        private void UpdateScore(int score, int highScore)
+        public void UpdateScore(int score, int highScore)
         {
             _finalScore = score;
             _scoreReceived = true;
@@ -145,6 +147,7 @@ namespace Spikescape.UI.GameOver
         {
             nameInputField.gameObject.SetActive(false);
             submitScoreButton.gameObject.SetActive(false);
+            UIEnabled = false;
         }
 
         public void ShowAndEnableSubmissionUI()
@@ -153,6 +156,7 @@ namespace Spikescape.UI.GameOver
             nameInputField.text = string.Empty;
             submitScoreButton.gameObject.SetActive(true);
             submitScoreButton.interactable = true;
+            UIEnabled = true;
         }
     }
 }
