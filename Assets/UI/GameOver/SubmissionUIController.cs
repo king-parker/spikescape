@@ -139,7 +139,7 @@ namespace Spikescape.UI.GameOver
             if (_scoreSent) return;
             if (!_scoreReceived || !_hasLowestHighScore) return;
 
-            if (_finalScore < _lowestHighScore) { HideSubmissionUI(); }
+            if (_finalScore < _lowestHighScore || _finalScore <= 0) { HideSubmissionUI(); }
             else { ShowAndEnableSubmissionUI(); }
         }
 
