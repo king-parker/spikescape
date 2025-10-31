@@ -48,6 +48,13 @@ namespace Spikescape.Leaderboard
                 .Split(new[] { ' ', '-', '_'}, System.StringSplitOptions.RemoveEmptyEntries)
                 .Select(w => w.Trim());
 
+            var nameWordsNormalized = playerName
+                .ToLowerInvariant()
+                .Replace("-", "")
+                .Replace("_", "")
+                .Split(' ', System.StringSplitOptions.RemoveEmptyEntries)
+                .Select(w => w.Trim());
+
             foreach (var word in nameWords)
             {
                 if (_bannedWords.Contains(word))
@@ -55,6 +62,15 @@ namespace Spikescape.Leaderboard
                     return false;
                 }
             }
+
+            foreach (var word in nameWordsNormalized)
+            {
+                if (_bannedWords.Contains(word))
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 
