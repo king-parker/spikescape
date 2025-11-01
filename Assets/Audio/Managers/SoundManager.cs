@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SpikeScape.Audio.Managers
+namespace Spikescape.Audio.Managers
 {
     /// <summary>
     /// Handles sound effects in the game.

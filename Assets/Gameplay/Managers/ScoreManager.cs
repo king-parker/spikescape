@@ -1,9 +1,9 @@
-using SpikeScape.Gameplay.Objective;
-using SpikeScape.UI.HUD;
+using Spikescape.Gameplay.Objective;
+using Spikescape.UI.HUD;
 using System;
 using UnityEngine;
 
-namespace SpikeScape.Gameplay.Managers
+namespace Spikescape.Gameplay.Managers
 {
     /// <summary>
     /// Manages the player's score and related functionalities.

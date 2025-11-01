@@ -1,4 +1,4 @@
-namespace SpikeScape
+namespace Spikescape
 {
     public static class InputActionNames
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SpikeScape.Utility.Gameplay
+namespace Spikescape.Utility.Gameplay
 {
     /// <summary>
     /// Script that forwards OnTriggerEnter events to a specified receiver component.

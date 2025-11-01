@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SpikeScape.Cameras.PlayerCamera
+namespace Spikescape.Cameras.PlayerCamera
 {
     /// <summary>
     /// A camera that follows the player.

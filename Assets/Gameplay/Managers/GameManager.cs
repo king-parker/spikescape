@@ -1,9 +1,11 @@
-using SpikeScape.Audio.Managers;
+using Spikescape.Leaderboard;
+using Spikescape.Audio.Managers;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Spikescape.Utility.Threading;
 
-namespace SpikeScape.Gameplay.Managers
+namespace Spikescape.Gameplay.Managers
 {
     /// <summary>
     /// Manages overall game state and behavior.
@@ -33,6 +35,13 @@ namespace SpikeScape.Gameplay.Managers
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            InitMainThreadDispacther();
+        }
+
+        private void Start()
+        {
+            LootLockerManager.Instance.InitializeLootLocker();
         }
 
         public void GameOver()
@@ -70,6 +79,15 @@ namespace SpikeScape.Gameplay.Managers
             // TODO: Replace when main menu is implemented
             // Reload the current scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        private void InitMainThreadDispacther()
+        {
+            if (FindFirstObjectByType<MainThreadDispatcher>() == null)
+            {
+                var dispatcherGO = new GameObject("MainThreadDispatcher");
+                dispatcherGO.AddComponent<MainThreadDispatcher>();
+            }
         }
     }
 }

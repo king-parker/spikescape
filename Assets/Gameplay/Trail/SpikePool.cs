@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SpikeScape.Gameplay.Trail
+namespace Spikescape.Gameplay.Trail
 {
     /// <summary>
     /// Manages a pool of spike objects for efficient reuse.

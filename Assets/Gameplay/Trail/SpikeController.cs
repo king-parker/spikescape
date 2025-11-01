@@ -1,8 +1,8 @@
 using UnityEngine;
-using SpikeScape.Utility.Gameplay;
-using SpikeScape.Gameplay.Managers;
+using Spikescape.Utility.Gameplay;
+using Spikescape.Gameplay.Managers;
 
-namespace SpikeScape.Gameplay.Trail
+namespace Spikescape.Gameplay.Trail
 {
     /// <summary>
     /// Controls the behavior of spikes in the game.

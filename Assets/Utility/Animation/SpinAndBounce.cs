@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SpikeScape.Utility.Animation
+namespace Spikescape.Utility.Animation
 {
     /// <summary>
     /// Spins and bounces a GameObject for visual effect.

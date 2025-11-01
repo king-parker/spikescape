@@ -1,9 +1,9 @@
 using UnityEngine;
-using SpikeScape.Utility.Gameplay;
+using Spikescape.Utility.Gameplay;
 using System;
-using SpikeScape.Audio.Managers;
+using Spikescape.Audio.Managers;
 
-namespace SpikeScape.Gameplay.Objective
+namespace Spikescape.Gameplay.Objective
 {
     /// <summary>
     /// Controls the behavior of objectives in the game.

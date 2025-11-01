@@ -1,8 +1,8 @@
-using SpikeScape.Gameplay.Managers;
+using Spikescape.Gameplay.Managers;
 using TMPro;
 using UnityEngine;
 
-namespace SpikeScape.UI.GameOver
+namespace Spikescape.UI.GameOver
 {
     /// <summary>
     /// Represents the user interface displayed when the game is over.
@@ -18,7 +18,11 @@ namespace SpikeScape.UI.GameOver
 
         [Header("Text")]
         [SerializeField] private TextMeshProUGUI scoreText;
-        [SerializeField] private TextMeshProUGUI highScoreText;
+
+        [Header("Submission UI")]
+        [SerializeField] private SubmissionUIController submissionUI;
+
+        private int _finalScore;
 
         private void Awake()
         {
@@ -37,17 +41,26 @@ namespace SpikeScape.UI.GameOver
             ScoreManager.SendFinalScore -= UpdateScore;
         }
 
+        private void Start()
+        {
+            _finalScore = 0;
+        }
+
         public void ShowUI()
         {
             canvasGroup.alpha = 0f;
             canvasGroup.gameObject.SetActive(true);
+            if (submissionUI != null) { submissionUI.HideSubmissionUI(); } // Hide submission UI until we know if it's needed
             StartCoroutine(FadeInRoutine());
         }
 
         public void UpdateScore(int score, int highScore)
         {
             scoreText.text = $"Score: {score}";
-            highScoreText.text = $"High Score: {highScore}";
+            _finalScore = score;
+            // TODO: Remove highScore from method parameters
+            // highScoreText.text = $"High Score: {highScore}";
+            if (submissionUI != null && !submissionUI.UIEnabled) { submissionUI.UpdateScore(score, highScore); }
         }
 
         private System.Collections.IEnumerator FadeInRoutine()
