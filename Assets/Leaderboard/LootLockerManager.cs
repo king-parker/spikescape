@@ -15,6 +15,9 @@ namespace Spikescape.Leaderboard
         public static Action<List<LeaderboardEntry>> OnTopScoresReceived;
         public static Action<int> OnLowestHighScoreFound;
 
+        public int LastRetrievedScoreCount { get; private set; } = 0;
+        public int MaxTopScores => maxTopScores;
+
         [SerializeField] private string leaderboardKey = "spikescape_main";
         [SerializeField] private int maxTopScores = 100;
         [SerializeField] private float leaderboardRefreshDelay = 1.0f;
@@ -98,6 +101,7 @@ namespace Spikescape.Leaderboard
                         return new LeaderboardEntry(playerName, item.score);
                     }).ToList();
 
+                    LastRetrievedScoreCount = entries.Count;
                     OnTopScoresReceived?.Invoke(entries);
 
                     if (entries.Count > 0)

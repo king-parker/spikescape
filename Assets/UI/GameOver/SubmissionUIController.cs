@@ -139,8 +139,29 @@ namespace Spikescape.UI.GameOver
             if (_scoreSent) return;
             if (!_scoreReceived || !_hasLowestHighScore) return;
 
-            if (_finalScore < _lowestHighScore || _finalScore <= 0) { HideSubmissionUI(); }
-            else { ShowAndEnableSubmissionUI(); }
+            if (ShouldShowOrHideUI()) { ShowAndEnableSubmissionUI(); }
+            else { HideSubmissionUI(); }
+        }
+
+        private bool ShouldShowOrHideUI()
+        {
+            bool shouldShow = false;
+
+            // If the final score is not greater than zero, do not show the submission UI
+            if (_finalScore > 0)
+            {
+                // Show the submission UI if there is space in the leaderboard or if the final score beats the lowest high score
+                if (LootLockerManager.Instance.LastRetrievedScoreCount < LootLockerManager.Instance.MaxTopScores)
+                {
+                    shouldShow = true;
+                }
+                else if (_finalScore > _lowestHighScore)
+                {
+                    shouldShow = true;
+                }
+            }
+
+            return shouldShow;
         }
 
         public void HideSubmissionUI()
